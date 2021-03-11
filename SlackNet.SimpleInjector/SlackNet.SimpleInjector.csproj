@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Authors>Simon Oxtoby</Authors>
+        <Description>Microsoft.Extensions.DependencyInjection integration for configuring SlackNet services</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/soxtoby/SlackNet</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/soxtoby/SlackNet.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageTags>Slack API Events SimpleInjector</PackageTags>
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SlackNet\SlackNet.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.0.0">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
+      <PackageReference Include="SimpleInjector" Version="5.2.1" />
+    </ItemGroup>
+
+</Project>

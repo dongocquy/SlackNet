@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using System.Reactive.Concurrency;
 using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -8,7 +9,13 @@ namespace SlackNet
 {
     public static class Default
     {
-        public static IHttp Http(SlackJsonSettings jsonSettings = null, HttpClient httpClient = null) => new Http(httpClient ?? new HttpClient(), jsonSettings ?? JsonSettings());
+        public static IHttp Http(SlackJsonSettings jsonSettings = null, Func<HttpClient> getHttpClient = null) => new Http(getHttpClient ?? HttpClientFactory(), jsonSettings ?? JsonSettings());
+
+        private static Func<HttpClient> HttpClientFactory()
+        {
+            var httpClient = new HttpClient();
+            return () => httpClient;
+        }
 
         public static ISlackUrlBuilder UrlBuilder(SlackJsonSettings jsonSettings = null) => new SlackUrlBuilder(jsonSettings ?? JsonSettings());
 
@@ -41,6 +48,10 @@ namespace SlackNet
         public static Assembly[] AssembliesContainingSlackTypes => new[] { typeof(Default).GetTypeInfo().Assembly };
 
         public static IWebSocketFactory WebSocketFactory => new WebSocketFactory();
+
+        public static ISlackRequestListener RequestListener => NullRequestListener.Instance;
+
+        public static IScheduler Scheduler => System.Reactive.Concurrency.Scheduler.Default;
 
         public static void RegisterServices(Action<Type, Func<Func<Type, object>, object>> registerService)
         {
